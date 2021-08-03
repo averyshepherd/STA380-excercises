@@ -9,23 +9,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-this is me tryign this out 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-
+```{r}
+library(tidyverse)
 ```
 
-## Including Plots
+```{r}
+green = read_csv("greenbuildings.csv")
+green_occ = green %>% filter(leasing_rate > 10)
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+green_sqft = green_occ %>% filter(LEED == 1 | Energystar == 1) %>% summarise(rentsqft = mean(Rent))
+green_sqft = green_sqft[[1, 1]]
+cat('green rent per sqft is', green_sqft)
+non_green_sqft = green_occ %>% filter(LEED == 0 | Energystar == 0) %>% summarise(rentsqft = mean(Rent))
+non_green_sqft = non_green_sqft[[1, 1]]
+cat('\nnon green rent per sqft is', non_green_sqft)
 ```
+The intern says that green buildings cost 27.60 per sqft when the actual cost is 30.03 so there is a 2.43 dollar discrepancy. The intern also says non green buildings cost 25 per sqft when they actually cost 28.58 so there is a 3.58 discrepancy. 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
