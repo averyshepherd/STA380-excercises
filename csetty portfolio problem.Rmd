@@ -24,7 +24,6 @@ KREa = adjustOHLC(KRE)
 ```
 
 ```{r}
-#Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
 
 all_returns = cbind(ClCl(ITBa),ClCl(OIHa),ClCl(IYTa),ClCl(KREa))
 head(all_returns)
@@ -179,4 +178,4 @@ cat("Portfolio 3 value at risk 5%: ", abs(P3))
 
 I tried to pick a few different types of portfolios to see the change in VaR. The first portfolio includes ETfs from 4 different industries including transportation, construction, financial, and energy. This diverse portfolio returned the highest 5% value at risk with an expected loss of ~14%. Portfolio 2 was the most aggressive portfolio with Health & Biotech ETFs that had the highest percentage increase YTD. This portfolio had the lowest 5% VaR with an expected loss of about ~9.5%. The third portfolio included a mix of large and mid cap growth ETFs and returned an expected loss of ~10.5% for the 5% VaR.
 
-Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk portfolios. 
+Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk. 
