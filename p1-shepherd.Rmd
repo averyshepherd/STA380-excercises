@@ -65,5 +65,183 @@ ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)
 ```
 
 
+##Portfolio Management
+
+```{r}
+library(mosaic)
+library(quantmod)
+library(foreach)
+
+```
+
+```{r}
+
+##First portfolio - diversified industries including energy, financial, construction, and transportation
+mystocks = c("ITB", "OIH", "IYT", "KRE")
+getSymbols(mystocks, from = "2016-01-01")
+
+# Adjust for splits and dividends
+ITBa = adjustOHLC(ITB)
+OIHa = adjustOHLC(OIH)
+IYTa = adjustOHLC(IYT)
+KREa = adjustOHLC(KRE)
+
+```
+
+```{r}
+#Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
+
+all_returns = cbind(ClCl(ITBa),ClCl(OIHa),ClCl(IYTa),ClCl(KREa))
+head(all_returns)
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+
+```
 
 
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.25, 0.25, 0.25, 0.25)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+```
+
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+```{r}
+P1 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+P1
+```
+
+```{r}
+##Second portfolio - Health & Biotech ETFs with highest percentage increase based on YTD. This is considered an aggressive portfolio
+
+mystocks = c("BBH", "HELX", "CHNA", "IDNA", "RYH")
+getSymbols(mystocks, from = "2016-01-01")
+
+# Adjust for splits and dividends
+BBHa = adjustOHLC(BBH)
+HELXa = adjustOHLC(HELX)
+CHNAa = adjustOHLC(CHNA)
+IDNAa = adjustOHLC(IDNA)
+RYHa = adjustOHLC(RYH)
+```
+```{r}
+all_returns = cbind(ClCl(BBHa),ClCl(HELXa),ClCl(CHNAa),ClCl(IDNAa),ClCl(RYHa))
+head(all_returns)
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+```
+
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.2, 0.2, 0.2, 0.2, 0.2)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+
+wealthtracker
+```
+
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+```{r}
+P2 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+P2
+```
+
+```{r}
+##Third portfolio - Mix of mid and large cap growth ETFs
+
+mystocks = c("XMMO", "SCHM", "SFYX", "VTI", "ITOT", "SCHG", "GSLC", "MDYG", "IVOG", "DIA")
+getSymbols(mystocks, from = "2016-01-01")
+
+# Adjust for splits and dividends
+
+XMMOa = adjustOHLC(XMMO)
+SCHMa = adjustOHLC(SCHM)
+SFYXa = adjustOHLC(SFYX)
+VTIa = adjustOHLC(VTI)
+ITOTa = adjustOHLC(ITOT)
+SCHGa = adjustOHLC(SCHG)
+GSLCa = adjustOHLC(GSLC)
+MDYGa = adjustOHLC(MDYG)
+IVOGa = adjustOHLC(IVOG)
+DIAa = adjustOHLC(DIA)
+
+```
+
+```{r}
+all_returns = cbind(ClCl(XMMOa),ClCl(SCHMa),ClCl(SFYXa),ClCl(VTIa),ClCl(ITOTa),ClCl(SCHGa),ClCl(GSLCa),ClCl(MDYGa),ClCl(IVOGa),ClCl(DIAa))
+head(all_returns)
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+```
+
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+
+wealthtracker
+```
+
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+```{r}
+P3 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+P3
+```
+
+
+```{r}
+cat("Portfolio 1 value at risk 5%: ", abs(P1), "\n")
+cat("Portfolio 2 value at risk 5%: ", abs(P2), "\n")
+cat("Portfolio 3 value at risk 5%: ", abs(P3))
+```
+
+I tried to pick a few different types of portfolios to see the change in VaR. The first portfolio includes ETfs from 4 different industries including transportation, construction, financial, and energy. This diverse portfolio returned the highest 5% value at risk with an expected loss of ~14%. Portfolio 2 was the most aggressive portfolio with Health & Biotech ETFs that had the highest percentage increase YTD. This portfolio had the lowest 5% VaR with an expected loss of about ~9.5%. The third portfolio included a mix of large and mid cap growth ETFs and returned an expected loss of ~10.5% for the 5% VaR.
+
+Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk portfolios. 
