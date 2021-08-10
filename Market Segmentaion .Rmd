@@ -1,0 +1,42 @@
+---
+title: "Market segmentation"
+author: "Allie Touchstone"
+date: "8/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(corrplot)
+library(RColorBrewer)
+library(dplyr)
+```
+
+
+
+
+```{r}
+market = read_csv("social_marketing.csv")
+attach(market)
+#cor(market)
+#market_count = market %>% filter(travel > 1)
+#summary(market)
+#corrplot(cor(market_count), col=brewer.pal(n=8, name="RdYlBu"), type = "upper")
+df = select(market, -X1)
+#corrplot(market-X1)
+#cor(market, use="pairwise.complete.obs")
+#M = cor(market)
+#head(round(M,2))
+#cor(df)
+corrplot(cor(df), type = "upper")
+
+```
+
+```{r}
+library(data.table)
+which.max(adult)
+cor(college_uni)
+```
+
+

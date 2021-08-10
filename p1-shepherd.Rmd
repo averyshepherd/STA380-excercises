@@ -64,6 +64,6 @@ ggplot(data = green_occ, aes(x = Electricity_Costs, y = Rent)) + geom_point()
 ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)) + geom_boxplot()
 ```
 
-
+ 
 
 
