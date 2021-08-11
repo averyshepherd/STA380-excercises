@@ -1,68 +1,3 @@
----
-title: "P1-shepherd"
-author: "Avery Shepherd"
-date: "8/3/2021"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-```{r}
-library(tidyverse)
-library(corrplot)
-library(RColorBrewer)
-```
-
-```{r}
-green = read_csv("greenbuildings.csv")
-green_occ = green %>% filter(leasing_rate > 10)
-
-
-green_sqft = green_occ %>% filter(green_rating == 1) %>% summarise(rentsqft = mean(Rent))
-green_sqft = green_sqft[[1, 1]]
-cat('green rent per sqft is', green_sqft)
-non_green_sqft = green_occ %>% filter(green_rating == 0) %>% summarise(rentsqft = mean(Rent))
-non_green_sqft = non_green_sqft[[1, 1]]
-cat('\nnon green rent per sqft is', non_green_sqft)
-
-sqfts = data.frame(c(green_sqft, non_green_sqft))
-```
-The intern says that green buildings cost 27.60 per sqft when the actual cost is 30.03 so there is a 2.43 dollar discrepancy. The intern also says non green buildings cost 25 per sqft when they actually cost 28.58 so there is a 3.58 discrepancy.
-
-```{r}
-cat('the actual difference for the building if it were green is this dollar amount: \n')
-250000*(green_sqft-non_green_sqft)
-```
-That is $288337 less than predicted.
-
-If costs of the building are an extra 5 million to make it green it would actually take this many years to pay off the extra building costs:
-```{r}
-5000000/361663
-```
-Which is over 6 years longer than the analyst projected. 
-After almost 14 years you would then be making $361663 a year extra over having a green building.
-
-```{r}
-# corrplot(c)
-
-corrplot(cor(green_occ), col=brewer.pal(n=8, name="RdYlBu"), type = "upper")
-```
-cluster rent (the buildings location) has a high impact on Rent
-electricity cost has high impact on rent
-
-```{r}
-ggplot(data = green_occ, aes(x = cluster_rent, y = Rent)) + geom_point()
-ggplot(data = green_occ, aes(x = as.factor(green_rating), y = cluster_rent)) + geom_boxplot()
-```
-As you increase cluster, rent increases. cluster does not impact green rating. 
-
-```{r}
-ggplot(data = green_occ, aes(x = Electricity_Costs, y = Rent)) + geom_point()
-ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)) + geom_boxplot()
-```
 
 
 ##Portfolio Management
@@ -89,7 +24,6 @@ KREa = adjustOHLC(KRE)
 ```
 
 ```{r}
-#Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
 
 all_returns = cbind(ClCl(ITBa),ClCl(OIHa),ClCl(IYTa),ClCl(KREa))
 head(all_returns)
@@ -244,4 +178,4 @@ cat("Portfolio 3 value at risk 5%: ", abs(P3))
 
 I tried to pick a few different types of portfolios to see the change in VaR. The first portfolio includes ETfs from 4 different industries including transportation, construction, financial, and energy. This diverse portfolio returned the highest 5% value at risk with an expected loss of ~14%. Portfolio 2 was the most aggressive portfolio with Health & Biotech ETFs that had the highest percentage increase YTD. This portfolio had the lowest 5% VaR with an expected loss of about ~9.5%. The third portfolio included a mix of large and mid cap growth ETFs and returned an expected loss of ~10.5% for the 5% VaR.
 
-Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk portfolios. 
+Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk. 
