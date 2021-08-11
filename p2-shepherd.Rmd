@@ -1,0 +1,101 @@
+---
+title: "p2-shepherd"
+author: "Avery Shepherd"
+date: "8/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+```
+
+
+```{r}
+abia <- read.csv("ABIA.csv")
+glimpse(abia)
+```
+
+
+```{r}
+abia %>% filter(DepDelay > 0 & DepDelay < 200) %>% 
+  ggplot(aes(x = DepDelay)) + 
+  geom_density(alpha = .5) + 
+  facet_wrap(~ DayOfWeek)
+```
+
+
+```{r}
+abia %>% filter(WeatherDelay > 0 & WeatherDelay < 250) %>% 
+  ggplot(aes(x = WeatherDelay, fill = as.factor(Month))) + 
+  geom_density(alpha = .5) + 
+  facet_wrap(~ Month)
+
+ggplot(abia, aes(x=as.factor(Month), y=WeatherDelay, fill = as.factor(Month))) +
+  geom_bar(position=position_dodge(), stat="identity")
+
+abia %>% filter(WeatherDelay > 0 & WeatherDelay < 150) %>% ggplot(aes(x = as.factor(Month), y=WeatherDelay)) + geom_violin()
+```
+
+
+```{r}
+abia %>% filter(CarrierDelay > 0 & CarrierDelay < 150) %>% 
+  ggplot(aes(x = CarrierDelay, fill = UniqueCarrier)) + 
+  geom_density(alpha = .5) + 
+  facet_wrap(~ UniqueCarrier)
+```
+
+
+
+total number of flights each day, faceted by month and color by Day of Week
+```{r}
+abia %>%
+  group_by(DayOfWeek, Month, DayofMonth) %>% 
+  summarise(count = n()) %>%
+  ggplot(aes(x = DayofMonth, y = count, color = as.factor(DayOfWeek))) + geom_point() + 
+  facet_wrap(~ Month) + scale_color_brewer(palette = "Paired")
+```
+Saturdays generally have much lower numbers of flights. Holidays have much lower number of flights as well (Christmas, Fourth of July, Labor Day Weekend, Thanksgiving).
+
+
+```{r}
+abia %>%
+  group_by(Month, Dest) %>% 
+  summarise(weather_delay = mean(WeatherDelay, na.rm = TRUE)) %>%
+  filter(weather_delay > 10) %>% 
+  ggplot(aes(x = Dest, y = weather_delay)) + geom_col() + 
+  facet_wrap(~ Month) + scale_color_brewer(palette = "Paired")
+```
+
+
+
+```{r}
+coul <- brewer.pal(12, "Paired") 
+coul <- colorRampPalette(coul)(16)
+
+# mean Departure Delay of flights delayed by more than 5 minutes
+abia %>% filter(DepDelay>0) %>% 
+  group_by(DayOfWeek, Month, DayofMonth, UniqueCarrier) %>% 
+  summarise(ratio_delay = mean(DepDelay)) %>%
+  filter(ratio_delay > 30) %>% 
+  ggplot(aes(x = DayofMonth, y = ratio_delay, color = as.factor(UniqueCarrier))) + geom_point() + 
+  facet_wrap(~ Month) + scale_color_manual(values = coul)
+```
+
+
+```{r}
+# Classic palette BuPu, with 4 colors
+coul <- brewer.pal(12, "Paired") 
+
+# Add more colors to this palette :
+coul <- colorRampPalette(coul)(16)
+
+# Plot it
+pie(rep(1, length(coul)), col = coul , main="") 
+```
+
