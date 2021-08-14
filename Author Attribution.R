@@ -10,26 +10,22 @@ library(tidyverse)
 library(slam)
 library(proxy)
 
-<<<<<<< HEAD
 rm(list=ls())
-=======
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
 ## tm has many "reader" functions.  Each one has
 ## arguments elem, language, id
 ## (see ?readPlain, ?readPDF, ?readXML, etc)
 ## This wraps another function around readPlain to read
 ## plain text documents in English.
-<<<<<<< HEAD
-=======
+
 # I've stored this function as a Github "gist" at:
 # https://gist.github.com/jgscott/28d9d1287a0c3c1477e2113f6758d5ff
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
 readerPlain = function(fname){
   readPlain(elem=list(content=readLines(fname)), 
             id=fname, language='en') }
 
 
-<<<<<<< HEAD
 ### File not reading #####
 author_dirs = Sys.glob('/data/ReutersC50/C50train/*/*.txt')
 file_list = NULL
@@ -82,21 +78,21 @@ mynames_train = train_file_list %>%
   unlist
 
 mynames_test = test_file_list %>%
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
   { strsplit(., '/', fixed=TRUE) } %>%
   { lapply(., tail, n=2) } %>%
   { lapply(., paste0, collapse = '') } %>%
   unlist
 
 # Rename the articles
-<<<<<<< HEAD
+
 mynames
 names(reuters) = mynames
 
 ## once you have documents in a vector, you 
 ## create a text mining 'corpus' with: 
 documents_raw = Corpus(VectorSource(reuters))
-=======
+
 #mynames
 names(train_data) = mynames_train
 names(test_data)=mynames_test
@@ -105,7 +101,7 @@ names(test_data)=mynames_test
 ## create a text mining 'corpus' with: 
 documents_raw = Corpus(VectorSource(train_data))
 documents_raw_test = Corpus(VectorSource(test_data))
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
 
 ## Some pre-processing/tokenization steps.
 ## tm_map just maps some function to every document in the corpus
@@ -115,14 +111,14 @@ my_documents = documents_raw %>%
   tm_map(content_transformer(removePunctuation)) %>%    # remove punctuation
   tm_map(content_transformer(stripWhitespace))          # remove excess white-space
 
-<<<<<<< HEAD
-=======
+
 my_documents_test = documents_raw_test %>%
   tm_map(content_transformer(tolower))  %>%             # make everything lowercase
   tm_map(content_transformer(removeNumbers)) %>%        # remove numbers
   tm_map(content_transformer(removePunctuation)) %>%    # remove punctuation
   tm_map(content_transformer(stripWhitespace))    
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
+
 ## Remove stopwords.  Always be careful with this: one person's trash is another one's treasure.
 # 2 example built-in sets of stop words
 stopwords("en")
@@ -131,7 +127,7 @@ stopwords("SMART")
 # let's just use the "basic English" stop words
 my_documents = tm_map(my_documents, content_transformer(removeWords), stopwords("en"))
 
-<<<<<<< HEAD
+
 ## create a doc-term-matrix from the corpus
 DTM_reuters=DocumentTermMatrix(my_documents)
 DTM_reuters # some basic summary statistics
@@ -145,7 +141,7 @@ findFreqTerms(DTM_reuters, 50)
 ## ...or find words whose count correlates with a specified word.
 # the top entries here look like they go with "genetic"
 findAssocs(DTM_reuters, "genetic", .5)
-=======
+
 my_documents_test = tm_map(my_documents_test, content_transformer(removeWords), stopwords("en"))
 ## create a doc-term-matrix from the corpus
 DTM = DocumentTermMatrix(my_documents)
@@ -161,14 +157,14 @@ DTM_test = DocumentTermMatrix(my_documents_test)
 ## ...or find words whose count correlates with a specified word.
 # the top entries here look like they go with "genetic"
 #findAssocs(DTM_simon, "genetic", .5)
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
 
 ## Finally, let's drop those terms that only occur in one or two documents
 ## This is a common step: the noise of the "long tail" (rare terms)
 ## can be huge, and there is nothing to learn if a term occured once.
 ## Below removes those terms that have count 0 in >95% of docs.  
 ## Probably a bit stringent here... but only 50 docs!
-<<<<<<< HEAD
+
 DTM_reuters = removeSparseTerms(DTM_reuters, 0.95)
 DTM_reuters # now ~ 1000 terms (versus ~3000 before)
 
@@ -176,7 +172,6 @@ DTM_reuters # now ~ 1000 terms (versus ~3000 before)
 # as features in a predictive model
 tfidf_reuters = weightTfIdf(DTM_reuters)
 
-=======
 DTM = removeSparseTerms(DTM, 0.95)
 DTM_test = removeSparseTerms(DTM_test, 0.95)
 
@@ -268,4 +263,3 @@ content(simon[[10]])
 content(simon[[11]])
 
 # Conclusion: even just these two-number summaries still preserve a lot of information
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
