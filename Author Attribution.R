@@ -1,10 +1,10 @@
 ## The tm library and related plugins comprise R's most popular text-mining stack.
 ## See http://cran.r-project.org/web/packages/tm/vignettes/tm.pdf
-<<<<<<< HEAD
+
 library(NLP)
-=======
+
 rm(list=ls())
->>>>>>> 84fbe582f8a24a17b3f7f923335e4ad8282700b2
+
 library(tm) 
 library(tidyverse)
 library(slam)
