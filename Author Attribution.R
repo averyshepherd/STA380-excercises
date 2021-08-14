@@ -49,7 +49,7 @@ for(author in author_dirs) {
 # no doubt the stringr library would be nicer here.
 # this is just what I hacked together
 mynames = file_list %>%
-=======
+
 
 ## apply to all of Simon Cowell's articles
 ## (probably not THE Simon Cowell: https://twitter.com/simoncowell)
