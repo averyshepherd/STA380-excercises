@@ -16,8 +16,9 @@ library(tidyverse)
 library(arules)  
 library(arulesViz)
 ```
+First we separated the data out into a format that the code could easily read. Then we put parameters on the data and are only looking at the data that has at more than a confidence of 0.005 and a support of 0.1. 
 
-The pertinent information from the  groceries.txt file is that in all there are 1582 rules.
+The pertinent information from the summery of this subset from the groceries.txt file is that in all there are 1582 rules.
 
 ```{r ex, include=FALSE}
 # adjusting the data set to be read the correct way
@@ -41,10 +42,10 @@ These are the rules where the support is larger than 0.05.
 ```{r plot support, echo=FALSE}
 inspect(subset(groc, support > 0.05))
 ```
-You can see from these rules which are the top 8 grocery items bought on there own, and are still popularly purchased. Each being bought at least 1000 times a piece. (There are 9835 entrys in the data).
+You can see from these rules which items are the top 8 grocery items bought on there own. Each item bought at least 1000 times a piece. (There are 9835 entrys in the data).
 
 
-These are the rules where the confidence is larger than 0.6. While it might look overwhelming due to formatting issues, the reason this is being included is to show the rhs column.   
+These are the rules where the confidence is larger than 0.6. While it might look overwhelming due to formatting issues, the reason this is being included is to point out the rhs column.   
 ```{r plot confidence, echo=FALSE}
 inspect(subset(groc, confidence > 0.6))
 ```
@@ -62,6 +63,22 @@ Following it up we have this graph used in gephi to break it up into 7 orders (e
 
 
 
-```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("your caption"), echo=FALSE}
-knitr::include_graphics("~/Desktop/Untitled.pdf")
+```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.03"), echo=FALSE}
+knitr::include_graphics ("~/Desktop/Untitled.pdf")
 ```
+
+This second group of plots is when there is a more stict set of rules on the data. Here the confidence has tp be larger than 0.3 and the support has to be larger than 0.03.
+```{r ex 0.3-0.03, echo=FALSE}
+sub1 = subset(groc, subset=confidence > 0.3 & support > 0.03)
+summary(sub1)
+
+plot(head(sub1, 100, by='lift'), method='graph')
+```
+
+Once again, the following graph created in gephi breaks up the grocery items into 7 orders (each shown as a different color) and how they items are connected to each other.
+
+```{r, out.width="0.7\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.3"), echo=FALSE}
+knitr::include_graphics ("~/Desktop/132 nodes.pdf")
+```
+
+As we can see this is a much simpler visual of the data and both versions of the plot can help us easily determine certain things. Such as the first shows some of the other items commonly bought with groceries such as pasties, fruit, and bottle water. While in the second plot it is easier to what items are more connected to items in other groups, and how connected things like vegtables and whole milk are to the rest of the information. 
