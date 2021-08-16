@@ -58,12 +58,11 @@ ggplot(data = green_occ, aes(x = cluster_rent, y = Rent)) + geom_point()
 ggplot(data = green_occ, aes(x = as.factor(green_rating), y = cluster_rent)) + geom_boxplot()
 ```
 As you increase cluster, rent increases. cluster does not impact green rating. 
-
 ```{r}
 ggplot(data = green_occ, aes(x = Electricity_Costs, y = Rent)) + geom_point()
 ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)) + geom_boxplot()
 ```
-
+Higher electricity costs are generally associated with higher rent
 
 ##Portfolio Management
 
