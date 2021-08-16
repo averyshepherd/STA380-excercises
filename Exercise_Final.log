@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.13)  16 AUG 2021 12:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.7.13)  16 AUG 2021 13:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Rule-Mining.tex
-(./Rule-Mining.tex
+**Exercise_Final.tex
+(./Exercise_Final.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex
 /base/article.cls
@@ -337,8 +337,8 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count282
 \l__pdf_internal_box=\box49
-) (./Rule-Mining.aux)
-\openout1 = `Rule-Mining.aux'.
+) (./Exercise_Final.aux)
+\openout1 = `Exercise_Final.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
 LaTeX Font Info:    ... okay on input line 70.
@@ -482,208 +482,317 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
-3.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
+6.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<Rule-Mining_files/figure-latex/plot-1.pdf, id=4, 453.695pt x 315.1775pt>
-File: Rule-Mining_files/figure-latex/plot-1.pdf Graphic file (type pdf)
-<use Rule-Mining_files/figure-latex/plot-1.pdf>
-Package pdftex.def Info: Rule-Mining_files/figure-latex/plot-1.pdf  used on inp
-ut line 87.
-(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
+<Exercise_Final_files/figure-latex/unnamed-chunk-5-1.pdf, id=4, 345.29pt x 320.
+19624pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-5-1.pd
+f  used on input line 111.
+(pdftex.def)             Requested size: 345.2944pt x 320.20033pt.
 [1
 
-{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Rule-
-Mining_files/figure-latex/plot-1.pdf>]
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<Exercise_Final_files/figure-latex/unnamed-chunk-6-1.pdf, id=17, 459.7175pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-6-1.pd
+f  used on input line 115.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+<Exercise_Final_files/figure-latex/unnamed-chunk-6-2.pdf, id=18, 459.7175pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-6-2.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-6-2.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-6-2.pd
+f  used on input line 116.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--121
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--121
+[]
+ []
+
+[2 <./Exercise_Final_files/figure-latex/unnamed-chunk-5-1.pdf>] [3 <./Exercise_
+Final_files/figure-latex/unnamed-chunk-6-1.pdf> <./Exercise_Final_files/figure-
+latex/unnamed-chunk-6-2.pdf>]
+<Exercise_Final_files/figure-latex/unnamed-chunk-7-1.pdf, id=49, 459.7175pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-7-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-7-1.pd
+f  used on input line 122.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+<Exercise_Final_files/figure-latex/unnamed-chunk-7-2.pdf, id=50, 459.7175pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-7-2.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-7-2.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-7-2.pd
+f  used on input line 123.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--127
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--127
+[]
+ []
+
+[4 <./Exercise_Final_files/figure-latex/unnamed-chunk-7-1.pdf>] [5 <./Exercise_
+Final_files/figure-latex/unnamed-chunk-7-2.pdf>]
+<Exercise_Final_files/figure-latex/unnamed-chunk-9-1.pdf, id=75, 453.695pt x 31
+5.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (typ
+e pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-9-1.pd
+f  used on input line 174.
+(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
+<Exercise_Final_files/figure-latex/unnamed-chunk-10-1.pdf, id=76, 453.695pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (ty
+pe pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-10-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-10-1.p
+df  used on input line 182.
+(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
+
+Overfull \hbox (26.21622pt too wide) in paragraph at lines 180--183
+\T1/lmr/m/n/10 (-20) on month [] 
+ []
+
+[6 <./Exercise_Final_files/figure-latex/unnamed-chunk-9-1.pdf>]
+<Exercise_Final_files/figure-latex/unnamed-chunk-11-1.pdf, id=88, 453.695pt x 3
+15.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (ty
+pe pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-11-1.p
+df  used on input line 191.
+(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
+[7 <./Exercise_Final_files/figure-latex/unnamed-chunk-10-1.pdf>]
+<Exercise_Final_files/figure-latex/unnamed-chunk-12-1.pdf, id=104, 459.7175pt x
+ 315.1775pt>
+File: Exercise_Final_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (ty
+pe pdf)
+<use Exercise_Final_files/figure-latex/unnamed-chunk-12-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/unnamed-chunk-12-1.p
+df  used on input line 197.
+(pdftex.def)             Requested size: 459.74442pt x 315.19595pt.
+[8 <./Exercise_Final_files/figure-latex/unnamed-chunk-11-1.pdf>] [9 <./Exercise
+_Final_files/figure-latex/unnamed-chunk-12-1.pdf>] [10] [11]
+<Exercise_Final_files/figure-latex/plot-1.pdf, id=156, 453.695pt x 315.1775pt>
+File: Exercise_Final_files/figure-latex/plot-1.pdf Graphic file (type pdf)
+<use Exercise_Final_files/figure-latex/plot-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/plot-1.pdf  used on 
+input line 422.
+(pdftex.def)             Requested size: 453.6939pt x 315.17673pt.
+[12 <./Exercise_Final_files/figure-latex/plot-1.pdf>]
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##      lhs                        rhs                    sup
 port confidence    coverage     lift count[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       root vegetables}       => {other vegetables} 0.00569
 3950  0.6021505 0.009456024 3.112008    56[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       tropical fruit}        => {whole milk}       0.00650
 7372  0.6336634 0.010269446 2.479936    64[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       margarine}             => {whole milk}       0.00518
 5562  0.6219512 0.008337570 2.434099    51[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       domestic eggs}         => {whole milk}       0.00599
 8983  0.6210526 0.009659380 2.430582    59[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whipped/sour cream}    => {whole milk}       0.00671
 0727  0.6600000 0.010167768 2.583008    66[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       butter}                => {whole milk}       0.00538
 8917  0.6022727 0.008947636 2.357084    53[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       tropical fruit}        => {whole milk}       0.00620
 2339  0.6224490 0.009964413 2.436047    61[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       root vegetables}       => {whole milk}       0.00823
 5892  0.6377953 0.012913066 2.496107    81[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00935
 4347  0.6388889 0.014641586 2.500387    92[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       pip fruit}             => {whole milk}       0.00538
 8917  0.6235294 0.008642603 2.440275    53[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       tropical fruit}        => {whole milk}       0.00691
 4082  0.6071429 0.011387900 2.376144    68[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whipped/sour cream}    => {other vegetables} 0.00559
 2272  0.6043956 0.009252669 3.123610    55[] 
  []
 
-[2]
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whipped/sour cream}    => {whole milk}       0.00599
 8983  0.6483516 0.009252669 2.537421    59[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00508
 3884  0.6172840 0.008235892 2.415833    50[] 
  []
 
-
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+[13]
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whipped/sour cream}    => {whole milk}       0.00518
 5562  0.6071429 0.008540925 2.376144    51[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       root vegetables}       => {whole milk}       0.00549
 0595  0.6750000 0.008134215 2.641713    54[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whole milk}            => {other vegetables} 0.00549
 0595  0.6136364 0.008947636 3.171368    54[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00508
 3884  0.6250000 0.008134215 2.446031    50[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       whole milk}            => {other vegetables} 0.00579
 5628  0.6333333 0.009150991 3.273165    57[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00569
 3950  0.7000000 0.008134215 2.739554    56[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00762
 5826  0.6198347 0.012302999 2.425816    75[] 
  []
 
 
-Overfull \hbox (70.99341pt too wide) in paragraph at lines 187--187
+Overfull \hbox (70.99341pt too wide) in paragraph at lines 522--522
 []\T1/lmtt/m/n/10 ##       yogurt}                => {whole milk}       0.00782
 9181  0.6062992 0.012913066 2.372842    77[] 
  []
 
-[3]
-<Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf, id=29, 449.68pt x 294.09875
-pt>
-File: Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf Graphic file (type pdf)
-
-<use Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf>
-Package pdftex.def Info: Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf  use
-d on input line 227.
-(pdftex.def)             Requested size: 449.6789pt x 294.09802pt.
-<1064 nodes.pdf, id=30, 597.23125pt x 845.1575pt>
+[14]
+<Exercise_Final_files/figure-latex/ex 0.03-0.03-1.pdf, id=177, 449.68pt x 289.0
+8pt>
+File: Exercise_Final_files/figure-latex/ex 0.03-0.03-1.pdf Graphic file (type p
+df)
+<use Exercise_Final_files/figure-latex/ex 0.03-0.03-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/ex 0.03-0.03-1.pdf  
+used on input line 562.
+(pdftex.def)             Requested size: 449.69948pt x 289.09251pt.
+<1064 nodes.pdf, id=178, 597.23125pt x 845.1575pt>
 File: 1064 nodes.pdf Graphic file (type pdf)
 <use 1064 nodes.pdf>
-Package pdftex.def Info: 1064 nodes.pdf  used on input line 235.
+Package pdftex.def Info: 1064 nodes.pdf  used on input line 570.
 (pdftex.def)             Requested size: 459.64165pt x 650.4509pt.
 
-LaTeX Warning: Float too large for page by 23.96532pt on input line 240.
+LaTeX Warning: Float too large for page by 23.96532pt on input line 575.
 
-[4 <./Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf>] [5 <./1064 nodes.pdf>
-]
-<Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf, id=58, 449.68pt x 290.08376p
-t>
-File: Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf Graphic file (type pdf)
-<use Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf>
-Package pdftex.def Info: Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf  used
- on input line 277.
-(pdftex.def)             Requested size: 449.69948pt x 290.09631pt.
-<132 nodes.pdf, id=59, 597.23125pt x 845.1575pt>
+[15 <./Exercise_Final_files/figure-latex/ex 0.03-0.03-1.pdf>] [16 <./1064 nodes
+.pdf>]
+<Exercise_Final_files/figure-latex/ex 0.3-0.03-1.pdf, id=206, 436.63126pt x 291
+.0875pt>
+File: Exercise_Final_files/figure-latex/ex 0.3-0.03-1.pdf Graphic file (type pd
+f)
+<use Exercise_Final_files/figure-latex/ex 0.3-0.03-1.pdf>
+Package pdftex.def Info: Exercise_Final_files/figure-latex/ex 0.3-0.03-1.pdf  u
+sed on input line 612.
+(pdftex.def)             Requested size: 436.63019pt x 291.08678pt.
+<132 nodes.pdf, id=207, 597.23125pt x 845.1575pt>
 File: 132 nodes.pdf Graphic file (type pdf)
 <use 132 nodes.pdf>
-Package pdftex.def Info: 132 nodes.pdf  used on input line 285.
+Package pdftex.def Info: 132 nodes.pdf  used on input line 620.
 (pdftex.def)             Requested size: 328.8245pt x 465.32811pt.
-[6 <./Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf>] [7 <./132 nodes.pdf>] 
-(./Rule-Mining.aux) ) 
+[17 <./Exercise_Final_files/figure-latex/ex 0.3-0.03-1.pdf>] [18 <./132 nodes.p
+df>] (./Exercise_Final.aux) ) 
 Here is how much of TeX's memory you used:
- 12382 strings out of 478994
- 185015 string characters out of 5858184
- 533741 words of memory out of 5000000
- 29618 multiletter control sequences out of 15000+600000
- 426468 words of font info for 64 fonts, out of 8000000 for 9000
+ 12524 strings out of 478994
+ 189259 string characters out of 5858184
+ 533413 words of memory out of 5000000
+ 29687 multiletter control sequences out of 15000+600000
+ 433673 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,6n,88p,516b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-
-ec.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10.pfb></us
-r/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/tex
-live/2021/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2021/t
-exmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Rule-Mining.pdf (7 pages, 420584 bytes).
+ 85i,6n,88p,519b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvip
+s/lm/lm-ec.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx10
+.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr
+/local/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texl
+ive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2021/texmf-dist/fo
+nts/type1/public/lm/lmtt10.pfb>
+Output written on Exercise_Final.pdf (18 pages, 1231534 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 77 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 12314 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 295 PDF objects out of 1000 (max. 8388607)
+ 222 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 16519 words of extra memory for PDF output out of 17280 (max. 10000000)
 

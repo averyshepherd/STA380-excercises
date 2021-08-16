@@ -16,10 +16,12 @@ library(RColorBrewer)
 ```
 
 
+read in ABIA
 ```{r}
 abia <- read.csv("ABIA.csv")
 glimpse(abia)
 ```
+
 
 
 ```{r}

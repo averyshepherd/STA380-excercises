@@ -64,7 +64,7 @@ Following it up we have this graph used in gephi to break it up into 7 orders (e
 
 
 ```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.03"), echo=FALSE}
-knitr::include_graphics ("~/Desktop/1064 nodes.pdf")
+knitr::include_graphics ("1064 nodes.pdf")
 ```
 
 This second group of plots is when there is a more stict set of rules on the data. Here the confidence has tp be larger than 0.3 and the support has to be larger than 0.03.
@@ -78,7 +78,7 @@ plot(head(sub1, 100, by='lift'), method='graph')
 Once again, the following graph created in gephi breaks up the grocery items into 7 orders (each shown as a different color) and how they items are connected to each other.
 
 ```{r, out.width="0.7\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.3"), echo=FALSE}
-knitr::include_graphics ("~/Desktop/132 nodes.pdf")
+knitr::include_graphics ("132 nodes.pdf")
 ```
 
 As we can see this is a much simpler visual of the data and both versions of the plot can help us easily determine certain things. Such as the first shows some of the other items commonly bought with groceries such as pasties, fruit, and bottle water. While in the second plot it is easier to what items are more connected to items in other groups, and how connected things like vegtables and whole milk are to the rest of the information. 

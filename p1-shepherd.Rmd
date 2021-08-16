@@ -10,6 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+
+## Green Buildings
+
 ```{r}
 library(tidyverse)
 library(corrplot)
@@ -58,43 +61,43 @@ ggplot(data = green_occ, aes(x = cluster_rent, y = Rent)) + geom_point()
 ggplot(data = green_occ, aes(x = as.factor(green_rating), y = cluster_rent)) + geom_boxplot()
 ```
 As you increase cluster, rent increases. cluster does not impact green rating. 
+The location of the apartment (cluster) definitely has an impact on rent price, thus depending on where the apartment is built, rent will change. 
+
 ```{r}
 ggplot(data = green_occ, aes(x = Electricity_Costs, y = Rent)) + geom_point()
 ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)) + geom_boxplot()
 ```
-Higher electricity costs are generally associated with higher rent
+Higher electricity costs are generally associated with higher rent. Perhaps electricity is included in places with higher rent and that is why there are higher costs.
 
-##Portfolio Management
+## Portfolio Management
 
 ```{r}
 library(mosaic)
 library(quantmod)
 library(foreach)
-
 ```
 
-```{r}
 
-##First portfolio - diversified industries including energy, financial, construction, and transportation
+First portfolio - diversified industries including energy, financial, construction, and transportation
+```{r}
 mystocks = c("ITB", "OIH", "IYT", "KRE")
 getSymbols(mystocks, from = "2016-01-01")
+```
 
-# Adjust for splits and dividends
+Adjust for splits and dividends
+```{r}
 ITBa = adjustOHLC(ITB)
 OIHa = adjustOHLC(OIH)
 IYTa = adjustOHLC(IYT)
 KREa = adjustOHLC(KRE)
-
 ```
 
+Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
 ```{r}
-#Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
-
 all_returns = cbind(ClCl(ITBa),ClCl(OIHa),ClCl(IYTa),ClCl(KREa))
 head(all_returns)
 # first row is NA because we didn't have a "before" in our data
 all_returns = as.matrix(na.omit(all_returns))
-
 ```
 
 
@@ -121,24 +124,30 @@ sim1 = foreach(i=1:5000, .combine='rbind') %do% {
 total_wealth = sum(holdings)
 total_wealth
 ```
+
 ```{r}
 P1 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
 P1
 ```
 
-```{r}
-##Second portfolio - Health & Biotech ETFs with highest percentage increase based on YTD. This is considered an aggressive portfolio
 
+Second portfolio - Health & Biotech ETFs with highest percentage increase based on YTD. This is considered an aggressive portfolio
+```{r}
 mystocks = c("BBH", "HELX", "CHNA", "IDNA", "RYH")
 getSymbols(mystocks, from = "2016-01-01")
+```
 
-# Adjust for splits and dividends
+
+Adjust for splits and dividends
+```{r}
 BBHa = adjustOHLC(BBH)
 HELXa = adjustOHLC(HELX)
 CHNAa = adjustOHLC(CHNA)
 IDNAa = adjustOHLC(IDNA)
 RYHa = adjustOHLC(RYH)
 ```
+
+
 ```{r}
 all_returns = cbind(ClCl(BBHa),ClCl(HELXa),ClCl(CHNAa),ClCl(IDNAa),ClCl(RYHa))
 head(all_returns)
@@ -171,19 +180,22 @@ wealthtracker
 total_wealth = sum(holdings)
 total_wealth
 ```
+
 ```{r}
 P2 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
 P2
 ```
 
-```{r}
-##Third portfolio - Mix of mid and large cap growth ETFs
 
+##Third portfolio - Mix of mid and large cap growth ETFs
+```{r}
 mystocks = c("XMMO", "SCHM", "SFYX", "VTI", "ITOT", "SCHG", "GSLC", "MDYG", "IVOG", "DIA")
 getSymbols(mystocks, from = "2016-01-01")
+```
 
-# Adjust for splits and dividends
 
+Adjust for splits and dividends
+```{r}
 XMMOa = adjustOHLC(XMMO)
 SCHMa = adjustOHLC(SCHM)
 SFYXa = adjustOHLC(SFYX)
@@ -194,8 +206,8 @@ GSLCa = adjustOHLC(GSLC)
 MDYGa = adjustOHLC(MDYG)
 IVOGa = adjustOHLC(IVOG)
 DIAa = adjustOHLC(DIA)
-
 ```
+
 
 ```{r}
 all_returns = cbind(ClCl(XMMOa),ClCl(SCHMa),ClCl(SFYXa),ClCl(VTIa),ClCl(ITOTa),ClCl(SCHGa),ClCl(GSLCa),ClCl(MDYGa),ClCl(IVOGa),ClCl(DIAa))

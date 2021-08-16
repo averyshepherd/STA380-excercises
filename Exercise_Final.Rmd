@@ -1,0 +1,542 @@
+---
+title: "STA380 Exercises"
+author: "Avery Shepherd, Allie Touchstone, Ally McNulty, Chaitra Setty"
+date: "8/16/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+
+## Green Buildings
+
+```{r}
+library(tidyverse)
+library(corrplot)
+library(RColorBrewer)
+```
+
+```{r}
+green = read_csv("greenbuildings.csv")
+green_occ = green %>% filter(leasing_rate > 10)
+
+
+green_sqft = green_occ %>% filter(green_rating == 1) %>% summarise(rentsqft = mean(Rent))
+green_sqft = green_sqft[[1, 1]]
+cat('green rent per sqft is', green_sqft)
+non_green_sqft = green_occ %>% filter(green_rating == 0) %>% summarise(rentsqft = mean(Rent))
+non_green_sqft = non_green_sqft[[1, 1]]
+cat('\nnon green rent per sqft is', non_green_sqft)
+
+sqfts = data.frame(c(green_sqft, non_green_sqft))
+```
+The intern says that green buildings cost 27.60 per sqft when the actual cost is 30.03 so there is a 2.43 dollar discrepancy. The intern also says non green buildings cost 25 per sqft when they actually cost 28.58 so there is a 3.58 discrepancy.
+
+
+```{r}
+cat('the actual difference for the building if it were green is this dollar amount: \n')
+250000*(green_sqft-non_green_sqft)
+```
+That is $288337 less than predicted.
+
+
+If costs of the building are an extra 5 million to make it green it would actually take this many years to pay off the extra building costs:
+```{r}
+5000000/361663
+```
+Which is over 6 years longer than the analyst projected. 
+After almost 14 years you would then be making $361663 a year extra over having a green building.
+
+
+```{r}
+corrplot(cor(green_occ), col=brewer.pal(n=8, name="RdYlBu"), type = "upper")
+```
+cluster rent (the buildings location) has a high impact on Rent
+electricity cost has high impact on rent
+
+
+```{r}
+ggplot(data = green_occ, aes(x = cluster_rent, y = Rent)) + geom_point()
+ggplot(data = green_occ, aes(x = as.factor(green_rating), y = cluster_rent)) + geom_boxplot()
+```
+As you increase cluster, rent increases. cluster does not impact green rating. 
+The location of the apartment (cluster) definitely has an impact on rent price, thus depending on where the apartment is built, rent will change. 
+
+```{r}
+ggplot(data = green_occ, aes(x = Electricity_Costs, y = Rent)) + geom_point()
+ggplot(data = green_occ, aes(x = as.factor(green_rating), y = Electricity_Costs)) + geom_boxplot()
+```
+Higher electricity costs are generally associated with higher rent. Perhaps electricity is included in places with higher rent and that is why there are higher costs.
+
+
+## ABIA Visualizations
+
+
+Our goal for these visualizations was to see when Austinites should to travel to reduce weather delays.
+
+Read in ABIA
+```{r}
+abia <- read.csv("ABIA.csv")
+glimpse(abia)
+```
+
+
+First we wanted to see the trend for each day of the year so we plotted the count of flights out of AUS, faceted by month and color by Day of Week
+```{r fig.align = 'center'}
+abia %>%
+  group_by(DayOfWeek, Month, DayofMonth) %>% 
+  summarise(count = n()) %>%
+  ggplot(aes(x = DayofMonth, y = count, color = as.factor(DayOfWeek))) + geom_point() + 
+  facet_wrap(~ Month) + scale_color_brewer(palette = "Paired")
+```
+
+Saturdays generally have much lower numbers of flights. Holidays have much lower number of flights as well (Christmas, Fourth of July, Labor Day Weekend, Thanksgiving).
+
+
+Then we wanted to explore weather delay trends for the year, so we did a density plot of weather delay, faceting on month
+```{r}
+abia %>% filter(WeatherDelay > 0 & WeatherDelay < 250) %>% 
+  ggplot(aes(x = WeatherDelay, fill = as.factor(Month))) + 
+  geom_density(alpha = .5) + 
+  facet_wrap(~ Month)
+```
+
+We can see that January is a particularly bad month for weather delays, and that September has quite a few longer weather delays (perhaps specific to that year?). 
+
+For a clearer picture, we took the total count of weather delays per month
+```{r fig.align = 'center'}
+ggplot(abia, aes(x=as.factor(Month), y=WeatherDelay, fill = as.factor(Month))) +
+  geom_bar(position=position_dodge(), stat="identity")
+```
+
+Here we see that March and April (rainy season) have the highest number of total weather delays. We can see this reflected in the density graph above, with March and April having the largest area under the curve. 
+
+
+```{r}
+abia %>% filter(WeatherDelay > 0 & WeatherDelay < 150) %>% ggplot(aes(x = as.factor(Month), y=WeatherDelay)) + geom_violin()
+```
+
+This violin plot helps show where the highest number of weather delays are. March and April don't have the widest violins, but the have a large range with lots of delays across the range. January has a large amount of small delays.
+
+If traveling in January, March, or April, plan to have a possible weather delay. If wanting to avoid weather delays, the best time to travel is February, June, September, November, and December. 
+
+
+## Portfolio Management
+
+```{r}
+library(mosaic)
+library(quantmod)
+library(foreach)
+```
+
+
+First portfolio - diversified industries including energy, financial, construction, and transportation
+```{r, "getSymbols.warning4.0"=FALSE}
+mystocks = c("ITB", "OIH", "IYT", "KRE")
+getSymbols(mystocks, from = "2016-01-01")
+```
+
+Adjust for splits and dividends
+```{r}
+ITBa = adjustOHLC(ITB)
+OIHa = adjustOHLC(OIH)
+IYTa = adjustOHLC(IYT)
+KREa = adjustOHLC(KRE)
+```
+
+Portfolio 1 - Randomly selected 5 ETFs in Asia Pacific
+```{r}
+all_returns = cbind(ClCl(ITBa),ClCl(OIHa),ClCl(IYTa),ClCl(KREa))
+head(all_returns)
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+```
+
+
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.25, 0.25, 0.25, 0.25)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+```
+
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+
+```{r}
+P1 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+```
+
+
+Second portfolio - Health & Biotech ETFs with highest percentage increase based on YTD. This is considered an aggressive portfolio
+```{r}
+mystocks = c("BBH", "HELX", "CHNA", "IDNA", "RYH")
+getSymbols(mystocks, from = "2016-01-01")
+```
+
+
+Adjust for splits and dividends
+```{r}
+BBHa = adjustOHLC(BBH)
+HELXa = adjustOHLC(HELX)
+CHNAa = adjustOHLC(CHNA)
+IDNAa = adjustOHLC(IDNA)
+RYHa = adjustOHLC(RYH)
+```
+
+All returns as a matrix
+```{r}
+all_returns = cbind(ClCl(BBHa),ClCl(HELXa),ClCl(CHNAa),ClCl(IDNAa),ClCl(RYHa))
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+```
+
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.2, 0.2, 0.2, 0.2, 0.2)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+```
+
+
+total wealth
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+
+```{r}
+P2 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+```
+
+
+Third portfolio - Mix of mid and large cap growth ETFs
+```{r}
+mystocks = c("XMMO", "SCHM", "SFYX", "VTI", "ITOT", "SCHG", "GSLC", "MDYG", "IVOG", "DIA")
+getSymbols(mystocks, from = "2016-01-01")
+```
+
+
+Adjust for splits and dividends
+```{r}
+XMMOa = adjustOHLC(XMMO)
+SCHMa = adjustOHLC(SCHM)
+SFYXa = adjustOHLC(SFYX)
+VTIa = adjustOHLC(VTI)
+ITOTa = adjustOHLC(ITOT)
+SCHGa = adjustOHLC(SCHG)
+GSLCa = adjustOHLC(GSLC)
+MDYGa = adjustOHLC(MDYG)
+IVOGa = adjustOHLC(IVOG)
+DIAa = adjustOHLC(DIA)
+```
+
+
+```{r}
+all_returns = cbind(ClCl(XMMOa),ClCl(SCHMa),ClCl(SFYXa),ClCl(VTIa),ClCl(ITOTa),ClCl(SCHGa),ClCl(GSLCa),ClCl(MDYGa),ClCl(IVOGa),ClCl(DIAa))
+# first row is NA because we didn't have a "before" in our data
+all_returns = as.matrix(na.omit(all_returns))
+```
+
+```{r}
+initial_wealth = 100000
+sim1 = foreach(i=1:5000, .combine='rbind') %do% {
+	total_wealth = initial_wealth
+	weights = c(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1)
+	holdings = weights * total_wealth
+	n_days = 20
+	wealthtracker = rep(0, n_days)
+	for(today in 1:n_days) {
+		return.today = resample(all_returns, 1, orig.ids=FALSE)
+		holdings = holdings + holdings*return.today
+		total_wealth = sum(holdings)
+		holdings = weights * total_wealth
+		wealthtracker[today] = total_wealth
+	}
+	wealthtracker
+}
+
+```
+
+
+total wealth
+```{r}
+total_wealth = sum(holdings)
+total_wealth
+```
+```{r}
+P3 = quantile(sim1[,n_days]- initial_wealth, prob=0.05)
+```
+
+
+```{r}
+cat("Portfolio 1 value at risk 5%: ", abs(P1), "\n")
+cat("Portfolio 2 value at risk 5%: ", abs(P2), "\n")
+cat("Portfolio 3 value at risk 5%: ", abs(P3))
+```
+
+I tried to pick a few different types of portfolios to see the change in VaR. The first portfolio includes ETfs from 4 different industries including transportation, construction, financial, and energy. This diverse portfolio returned the highest 5% value at risk with an expected loss of ~14%. Portfolio 2 was the most aggressive portfolio with Health & Biotech ETFs that had the highest percentage increase YTD. This portfolio had the lowest 5% VaR with an expected loss of about ~9.5%. The third portfolio included a mix of large and mid cap growth ETFs and returned an expected loss of ~10.5% for the 5% VaR.
+
+Based on these VaR results, we can assume having a very diverse portfolio leads to more risk and having a portfolio with high growth ETFs will minimize risk. Of course, we would have to try out many other portfolios to fully understand high and low risk portfolios. 
+
+
+## Author attribution
+
+In order to predict the author of an article on the basis of the article's textual content, we took several steps to clean the data and split it into a training and test set. After all the data cleaning was complete, we created a random forest model. Our data cleaning steps and final conclusions are outlined below. 
+
+### Data cleaning Outline:
+1. Read the file information for the training and test set using a readerplain function  that allowed us to read the plain text documents in english.
+2. Created for loops for both the train and test data that separated the strings at "/" and created lists for the author names and file names for both the training and the test set.
+3. Used a name function to add the names of the authors to the author list and add ".txt" back to each file name in the file name list. 
+4. Created a corpus for both the training and the test set and 
+5. Transformed both corpuses to make everything lowercase, remove numbers, remove punctuation, excess white space, and stopwords. 
+6. Converted the transformed data into a sparse matrix and removed sparse words. 
+7. Converted both the training matrix and test matrix into two new data frames and removed columns that were not common to both the test and the training set.This ensured that all the words in test set also appear in the training set.
+
+### Random Forest Modeling: 
+After the data cleaning and pre-processing were completed, our team had a usable data frame for both the training and test data. We ran a random forest model with 50 trees to predict the accuracy of predicting the author of an article based on the article's textual context. Our final prediction accuracy was 57.52%.
+
+
+```{r}
+## Install libraries
+library(NLP)
+library(tm) 
+library(tidyverse)
+library(slam)
+library(proxy)
+library(caret)
+library(randomForest)
+readerPlain = function(fname){
+  readPlain(elem=list(content=readLines(fname)), 
+            id=fname, language='en') }
+```
+
+```{r}
+## Read the file and pre-process the training data to extract the author name and file names and append them to lists 
+### TRAIN DATA #####
+author_dirs_train = Sys.glob('data/ReutersC50/C50train/*')
+## split the author train data string at each "/" in order to isolate the author name and file name and append to lists 
+file_list_train = NULL
+labels_train = NULL
+for(author_train in author_dirs_train) {
+  author_name_train = tail(strsplit(author_train,split="/")[[1]],1)##split at / and create list
+  files_to_add_train = Sys.glob(paste0(author_train, '/*.txt'))## add txt to file name
+  file_list_train = append(file_list_train, files_to_add_train)## append the empty list
+  labels_train = append(labels_train, rep(author_name_train, length(files_to_add_train)))## create labels
+}
+```
+
+
+```{r}
+## Rename the authors in the list and add txt to end of file names in list
+train_docs = lapply(file_list_train, readerPlain) 
+names(train_docs) = file_list_train
+names(train_docs) = sub('.txt', '', names(train_docs))
+```
+
+```{r}
+## Create a corpus for the training data
+my_corpus_train = Corpus(VectorSource(train_docs))
+```
+
+
+```{r}
+## Transform the training data to make everything lowercase, remove the numbers, remove puncuation, excess white space, and stopwords
+my_corpus_train = tm_map(my_corpus_train, content_transformer(tolower)) # make everything lowercase
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeNumbers)) # remove numbers
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removePunctuation)) # remove punctuation
+my_corpus_train = tm_map(my_corpus_train, content_transformer(stripWhitespace)) ## remove excess white-space
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeWords), stopwords("SMART"))
+```
+
+```{r}
+## Convert training data to a matrix
+DTM_train = DocumentTermMatrix(my_corpus_train)
+DTM_train = removeSparseTerms(DTM_train, 0.975)## remove terms not found 97.5% of the time
+```
+
+```{r}
+## Set training data as a dataframe 
+train_data = as.data.frame(as.matrix(DTM_train))
+```
+
+```{r}
+## Read the file and pre-process the test data to extract the author name and file names and append them to lists
+### TEST DATA #####
+author_dirs_test = Sys.glob('data/ReutersC50/C50test/*')
+
+file_list_test = NULL
+labels_test = NULL
+for(author_test in author_dirs_test) {
+  author_name_test = tail(strsplit(author_test,split="/")[[1]],1)##split at / and create list
+  files_to_add_test = Sys.glob(paste0(author_test, '/*.txt'))## add txt to file name
+  file_list_test = append(file_list_test, files_to_add_test)## append the empty list
+  labels_test = append(labels_test, rep(author_name_test, length(files_to_add_test)))## create labels
+}
+```
+
+```{r}
+## Rename the authors in the list and add txt to end of file names in test list
+# Need a more clever regex to get better names here
+test_docs = lapply(file_list_test, readerPlain) 
+names(test_docs) = file_list_test
+names(test_docs) = sub('.txt', '', names(test_docs))
+```
+
+```{r}
+## Create a corpus for the test data
+my_corpus_test = Corpus(VectorSource(test_docs))
+```
+
+
+```{r}
+## Transform the test data to make everything lowercase, remove the numbers, remove puncuation, excess white space, and stopwords
+my_corpus_test = tm_map(my_corpus_test, content_transformer(tolower)) # make everything lowercase
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removeNumbers)) # remove numbers
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removePunctuation)) # remove punctuation
+my_corpus_test = tm_map(my_corpus_test, content_transformer(stripWhitespace)) ## remove excess white-space
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removeWords), stopwords("SMART"))
+```
+
+```{r}
+## Convert test data to a matrix
+DTM_test = DocumentTermMatrix(my_corpus_test)
+DTM_test = removeSparseTerms(DTM_test, 0.975)## remove terms not found 97.5% of the time
+```
+
+
+```{r}
+## Set test data as a dataframe 
+test_data = as.data.frame(as.matrix(DTM_test))
+```
+
+```{r}
+## Create new training set data frame containing only intersecting columns 
+# use only intersecting columns
+common_cols = intersect(names(train_data), names(test_data))
+training = train_data[,c(common_cols)]
+```
+
+```{r}
+### RANDOM FOREST #### 
+
+set.seed(1234)
+rf.model <- randomForest(x=training,y=factor(labels_train),ntree=50)
+rf.prediction = predict(rf.model,newdata=test_data)
+predictions = table(rf.prediction,labels_train)
+count = 0
+for(i in 1:50){
+  count = count + predictions[i,i]
+}
+```
+
+### Accuracy Result
+```{r}
+# accuracy
+count / 2500
+```
+
+We have a 57.53% accuracy using random forests.
+
+
+## Association Rule Mining
+
+```{r packages}
+library(tidyverse)
+library(arules)  
+library(arulesViz)
+```
+First we separated the data out into a format that the code could easily read. Then we put parameters on the data and are only looking at the data that has at more than a confidence of 0.005 and a support of 0.1. 
+
+The pertinent information from the summery of this subset from the groceries.txt file is that in all there are 1582 rules.
+
+```{r ex}
+# adjusting the data set to be read the correct way
+groceries = read.transactions("groceries.txt", format = "basket", sep = ",")
+
+# Running the 'apriori' algorithm
+# Rules with support > .005 & confidence >.1 & length (# items) <= 5
+groc = apriori(groceries,parameter=list(support=.005, confidence=.1, maxlen=5))
+
+#inspect(groc) #rules
+summary(groc)
+```
+
+This is a plots of the rules where the groceries data is grouped off into 4 orders. 
+
+```{r plot}
+plot(groc, method='two-key plot')
+```
+
+These are the rules where the support is larger than 0.05.
+```{r plot support}
+inspect(subset(groc, support > 0.05))
+```
+You can see from these rules which items are the top 8 grocery items bought on there own. Each item bought at least 1000 times a piece. (There are 9835 entrys in the data).
+
+
+These are the rules where the confidence is larger than 0.6. While it might look overwhelming due to formatting issues, the reason this is being included is to point out the rhs column.   
+```{r plot confidence}
+inspect(subset(groc, confidence > 0.6))
+```
+These rules show how whole milk is bought with just about everything, as well other vegetables are commonly bought with a wide variety of other items. 
+
+This first plot is considering all rules where the confidence and the support are greater than 0.03. 
+```{r ex 0.03-0.03}
+sub1 = subset(groc, subset=confidence > 0.03 & support > 0.03)
+summary(sub1)
+
+plot(head(sub1, 100, by='lift'), method='graph')
+```
+
+Following it up we have this graph used in gephi to break it up into 7 orders (each shown as a different color) and how the grocery items are connected. 
+
+
+
+```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.03")}
+knitr::include_graphics ("1064 nodes.pdf")
+```
+
+This second group of plots is when there is a more stict set of rules on the data. Here the confidence has tp be larger than 0.3 and the support has to be larger than 0.03.
+```{r ex 0.3-0.03}
+sub1 = subset(groc, subset=confidence > 0.3 & support > 0.03)
+summary(sub1)
+
+plot(head(sub1, 100, by='lift'), method='graph')
+```
+
+Once again, the following graph created in gephi breaks up the grocery items into 7 orders (each shown as a different color) and how they items are connected to each other.
+
+```{r, out.width="0.7\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.3"), echo=FALSE}
+knitr::include_graphics ("132 nodes.pdf")
+```
+
+As we can see this is a much simpler visual of the data and both versions of the plot can help us easily determine certain things. Such as the first shows some of the other items commonly bought with groceries such as pasties, fruit, and bottle water. While in the second plot it is easier to what items are more connected to items in other groups, and how connected things like vegtables and whole milk are to the rest of the information. 
