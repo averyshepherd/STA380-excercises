@@ -1,0 +1,163 @@
+---
+title: "Author Attribution"
+output: pdf_document
+---
+## In order to predict the author of an article on the basis of the article's textual content, we took several steps to clean the data and split it into a training and test set. After all the data cleaning was complete, we created a random forest model. Our data cleaning steps and final conclusions are outlined below. 
+
+## Data cleaning Outline:
+### In order to create a training and test data set that was suitable for prediction modeling we had to take several pre-processing steps. The first step was to read the file information for the training and test set into two seperate for loops. These for loops seperated the strings at "/" and created lists for the author names and file names for both the training and the test set. Then we used a name function to add the names of the authors to the author list and add ".txt" back to each file name in the file name list. We then created a corpus for both the training and the test set and tranformed both corpuses to make everything lowercase, remove numbers, remove puncuation, excess white space, and stopwords. Next, we converted the transformed data into a sparse matrix and removed sparse words. Finally, we converted both the training matrix and test matrix into two new dataframes and removed columns that were not common to both the test and the training set.This ensured that all the words in test set also appear in the training set.
+
+## Random Forest Modeling: 
+### After the data cleaning and pre-processing were completed, our team had a usable data frame for both the training and test data. We ran a random forest model with 50 trees to predict the accuracy of predicting the author of an article based on the article's textual context. Our final prediction accuracy was 57.52%.
+
+
+```{r,warning=FALSE,message=FALSE}
+rm(list=ls())
+## Install libraries
+library(NLP)
+library(tm) 
+library(tidyverse)
+library(slam)
+library(proxy)
+library(caret)
+library(randomForest)
+
+
+## tm has many "reader" functions.  Each one has
+## arguments elem, language, id
+## (see ?readPlain, ?readPDF, ?readXML, etc)
+## This wraps another function around readPlain to read
+## plain text documents in English.
+
+# I've stored this function as a Github "gist" at:
+# https://gist.github.com/jgscott/28d9d1287a0c3c1477e2113f6758d5ff
+
+readerPlain = function(fname){
+  readPlain(elem=list(content=readLines(fname)), 
+            id=fname, language='en') }
+```
+## Create the training data set 
+
+### Read the file and pre-process the training data to extract the author name and file names and append them to lists 
+```{r,warning=FALSE,message=FALSE}
+### TRAIN DATA #####
+author_dirs_train = Sys.glob('data/ReutersC50/C50train/*')
+## split the author train data string at each "/" in order to isolate the author name and file name and append to lists 
+file_list_train = NULL
+labels_train = NULL
+for(author_train in author_dirs_train) {
+  author_name_train = tail(strsplit(author_train,split="/")[[1]],1)##split at / and create list
+  files_to_add_train = Sys.glob(paste0(author_train, '/*.txt'))## add txt to file name
+  file_list_train = append(file_list_train, files_to_add_train)## append the empty list
+  labels_train = append(labels_train, rep(author_name_train, length(files_to_add_train)))## create labels
+}
+```
+### Rename the authors in the list and add txt to end of file names in list
+
+```{r,warning=FALSE,message=FALSE}
+train_docs = lapply(file_list_train, readerPlain) 
+names(train_docs) = file_list_train
+names(train_docs) = sub('.txt', '', names(train_docs))
+```
+
+### Create a corpus for the training data
+```{r,warning=FALSE,message=FALSE}
+my_corpus_train = Corpus(VectorSource(train_docs))
+```
+### Transform the training data to make everything lowercase, remove the numbers, remove puncuation, excess white space, and stopwords
+
+```{r,warning=FALSE,message=FALSE}
+my_corpus_train = tm_map(my_corpus_train, content_transformer(tolower)) # make everything lowercase
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeNumbers)) # remove numbers
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removePunctuation)) # remove punctuation
+my_corpus_train = tm_map(my_corpus_train, content_transformer(stripWhitespace)) ## remove excess white-space
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeWords), stopwords("SMART"))
+```
+
+### Convert training data to a matrix
+```{r,warning=FALSE,message=FALSE}
+DTM_train = DocumentTermMatrix(my_corpus_train)
+DTM_train = removeSparseTerms(DTM_train, 0.975)## remove terms not found 97.5% of the time
+```
+### Set training data as a dataframe 
+
+```{r,warning=FALSE,message=FALSE}
+train_data = as.data.frame(as.matrix(DTM_train))
+```
+
+## Create the test data set
+
+### Read the file and pre-process the test data to extract the author name and file names and append them to lists 
+```{r,warning=FALSE,message=FALSE}
+### TEST DATA #####
+author_dirs_test = Sys.glob('data/ReutersC50/C50test/*')
+
+file_list_test = NULL
+labels_test = NULL
+for(author_test in author_dirs_test) {
+  author_name_test = tail(strsplit(author_test,split="/")[[1]],1)##split at / and create list
+  files_to_add_test = Sys.glob(paste0(author_test, '/*.txt'))## add txt to file name
+  file_list_test = append(file_list_test, files_to_add_test)## append the empty list
+  labels_test = append(labels_test, rep(author_name_test, length(files_to_add_test)))## create labels
+}
+```
+### Rename the authors in the list and add txt to end of file names in test list
+
+```{r,warning=FALSE,message=FALSE}
+# Need a more clever regex to get better names here
+test_docs = lapply(file_list_test, readerPlain) 
+names(test_docs) = file_list_test
+names(test_docs) = sub('.txt', '', names(test_docs))
+```
+### Create a corpus for the test data
+
+```{r,warning=FALSE,message=FALSE}
+my_corpus_test = Corpus(VectorSource(test_docs))
+```
+### Transform the test data to make everything lowercase, remove the numbers, remove puncuation, excess white space, and stopwords
+
+```{r,warning=FALSE,message=FALSE}
+my_corpus_test = tm_map(my_corpus_test, content_transformer(tolower)) # make everything lowercase
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removeNumbers)) # remove numbers
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removePunctuation)) # remove punctuation
+my_corpus_test = tm_map(my_corpus_test, content_transformer(stripWhitespace)) ## remove excess white-space
+my_corpus_test = tm_map(my_corpus_test, content_transformer(removeWords), stopwords("SMART"))
+```
+
+### Convert test data to a matrix
+```{r,warning=FALSE,message=FALSE}
+DTM_test = DocumentTermMatrix(my_corpus_test)
+DTM_test = removeSparseTerms(DTM_test, 0.975)## remove terms not found 97.5% of the time
+```
+
+### Set test data as a dataframe 
+```{r,warning=FALSE,message=FALSE}
+test_data = as.data.frame(as.matrix(DTM_test))
+```
+
+## Create new training set data frame containing only intersecting columns 
+```{r,warning=FALSE,message=FALSE}
+# use only intersecting columns
+common_cols = intersect(names(train_data), names(test_data))
+training = train_data[,c(common_cols)]
+```
+
+## Create Random Forest
+```{r,warning=FALSE,message=FALSE}
+### RANDOM FOREST #### 
+
+set.seed(1234)
+rf.model <- randomForest(x=training,y=factor(labels_train),ntree=50)
+rf.prediction = predict(rf.model,newdata=test_data)
+predictions = table(rf.prediction,labels_train)
+count = 0
+for(i in 1:50){
+  count = count + predictions[i,i]
+}
+```
+
+## Accuracy Result
+```{r,warning=FALSE,message=FALSE}
+# accuracy
+count / 2500
+```
