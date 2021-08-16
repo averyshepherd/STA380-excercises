@@ -1,0 +1,67 @@
+---
+title: "Rule Mining"
+author: "Allie Touchstone"
+date: "8/16/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r packages, include=FALSE}
+library(tidyverse)
+library(arules)  
+library(arulesViz)
+```
+
+The pertinent information from the  groceries.txt file is that in all there are 1582 rules.
+
+```{r ex, include=FALSE}
+# adjusting the data set to be read the correct way
+groceries = read.transactions("groceries.txt", format = "basket", sep = ",")
+
+# Running the 'apriori' algorithm
+# Rules with support > .005 & confidence >.1 & length (# items) <= 5
+groc = apriori(groceries,parameter=list(support=.005, confidence=.1, maxlen=5))
+
+#inspect(groc) #rules
+summary(groc)
+```
+
+This is a plots of the rules where the groceries data is grouped off into 4 orders. 
+
+```{r plot, echo=FALSE, warning=FALSE}
+plot(groc, method='two-key plot')
+```
+
+These are the rules where the support is larger than 0.05.
+```{r plot support, echo=FALSE}
+inspect(subset(groc, support > 0.05))
+```
+You can see from these rules which are the top 8 grocery items bought on there own, and are still popularly purchased. Each being bought at least 1000 times a piece. (There are 9835 entrys in the data).
+
+
+These are the rules where the confidence is larger than 0.6. While it might look overwhelming due to formatting issues, the reason this is being included is to show the rhs column.   
+```{r plot confidence, echo=FALSE}
+inspect(subset(groc, confidence > 0.6))
+```
+These rules show how whole milk is bought with just about everything, as well other vegetables are commonly bought with a wide variety of other items. 
+
+This first plot is considering all rules where the confidence and the support are greater than 0.03. 
+```{r ex 0.03-0.03, echo=FALSE}
+sub1 = subset(groc, subset=confidence > 0.03 & support > 0.03)
+summary(sub1)
+
+plot(head(sub1, 100, by='lift'), method='graph')
+```
+
+Following it up we have this graph used in gephi to break it up into 7 orders (each shown as a different color) and how the grocery items are connected. 
+
+
+
+```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("your caption"), echo=FALSE}
+knitr::include_graphics("~/Desktop/Untitled.pdf")
+```
