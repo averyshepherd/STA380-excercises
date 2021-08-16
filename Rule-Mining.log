@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.7.23)  16 AUG 2021 12:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.7.23)  16 AUG 2021 12:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -591,16 +591,16 @@ File: Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf Graphic file (type pdf)
 Package pdftex.def Info: Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf  use
 d on input line 227.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<~/Desktop/Untitled.pdf, id=28, 597.23125pt x 845.1575pt>
-File: ~/Desktop/Untitled.pdf Graphic file (type pdf)
-<use ~/Desktop/Untitled.pdf>
-Package pdftex.def Info: ~/Desktop/Untitled.pdf  used on input line 235.
+<~/Desktop/1064 nodes.pdf, id=28, 597.23125pt x 845.1575pt>
+File: ~/Desktop/1064 nodes.pdf Graphic file (type pdf)
+<use ~/Desktop/1064 nodes.pdf>
+Package pdftex.def Info: ~/Desktop/1064 nodes.pdf  used on input line 235.
 (pdftex.def)             Requested size: 459.64165pt x 650.4509pt.
 
 LaTeX Warning: Float too large for page by 23.96532pt on input line 240.
 
 [4 <./Rule-Mining_files/figure-latex/ex 0.03-0.03-1.pdf>] [5 </Users/user/Deskt
-op/Untitled.pdf>]
+op/1064 nodes.pdf>]
 <Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf, id=54, 469.755pt x 325.215pt
 >
 File: Rule-Mining_files/figure-latex/ex 0.3-0.03-1.pdf Graphic file (type pdf)
@@ -620,7 +620,7 @@ Package rerunfilecheck Info: File `Rule-Mining.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  10041 strings out of 480502
- 147067 string characters out of 5899004
+ 147087 string characters out of 5899004
  462604 words of memory out of 5000000
  27552 multiletter control sequences out of 15000+600000
  425013 words of font info for 47 fonts, out of 8000000 for 9000
@@ -631,7 +631,7 @@ user/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/user/Li
 brary/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/user/Library/T
 inyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/user/Library/TinyTeX/
 texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Rule-Mining.pdf (7 pages, 423110 bytes).
+Output written on Rule-Mining.pdf (7 pages, 423046 bytes).
 PDF statistics:
  106 PDF objects out of 1000 (max. 8388607)
  74 compressed objects within 1 object stream

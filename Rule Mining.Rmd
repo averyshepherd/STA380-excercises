@@ -64,7 +64,7 @@ Following it up we have this graph used in gephi to break it up into 7 orders (e
 
 
 ```{r, out.width="1.0\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Support > 0.03, Confidence > 0.03"), echo=FALSE}
-knitr::include_graphics ("~/Desktop/Untitled.pdf")
+knitr::include_graphics ("~/Desktop/1064 nodes.pdf")
 ```
 
 This second group of plots is when there is a more stict set of rules on the data. Here the confidence has tp be larger than 0.3 and the support has to be larger than 0.03.
