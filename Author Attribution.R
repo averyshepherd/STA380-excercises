@@ -8,6 +8,7 @@ library(tidyverse)
 library(slam)
 library(proxy)
 library(caret)
+library(randomForest)
 
 
 ## tm has many "reader" functions.  Each one has
@@ -85,6 +86,11 @@ DTM_test = removeSparseTerms(DTM_test, 0.975)
 
 test_data = as.data.frame(as.matrix(DTM_test))
 
+
+# use only intersecting columns
+common_cols = intersect(names(train_data), names(test_data))
+training = train_data[,c(common_cols)]
+
 ### RANDOM FOREST #### 
 
 set.seed(1234)
@@ -95,3 +101,6 @@ count = 0
 for(i in 1:50){
   count = count + predictions[i,i]
 }
+
+# accuracy
+count / 2500
