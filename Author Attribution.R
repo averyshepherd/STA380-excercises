@@ -7,6 +7,8 @@ library(tm)
 library(tidyverse)
 library(slam)
 library(proxy)
+library(caret)
+library(randomForest)
 
 
 ## tm has many "reader" functions.  Each one has
@@ -23,6 +25,37 @@ readerPlain = function(fname){
             id=fname, language='en') }
 
 
+### TRAIN DATA #####
+author_dirs_train = Sys.glob('data/ReutersC50/C50train/*')
+
+file_list_train = NULL
+labels_train = NULL
+for(author_train in author_dirs_train) {
+  author_name_train = tail(strsplit(author_train,split="/")[[1]],1)
+  files_to_add_train = Sys.glob(paste0(author_train, '/*.txt'))
+  file_list_train = append(file_list_train, files_to_add_train)
+  labels_train = append(labels_train, rep(author_name_train, length(files_to_add_train)))
+}
+
+
+# Need a more clever regex to get better names here
+train_docs = lapply(file_list_train, readerPlain) 
+names(train_docs) = file_list_train
+names(train_docs) = sub('.txt', '', names(train_docs))
+my_corpus_train = Corpus(VectorSource(train_docs))
+
+my_corpus_train = tm_map(my_corpus_train, content_transformer(tolower)) # make everything lowercase
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeNumbers)) # remove numbers
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removePunctuation)) # remove punctuation
+my_corpus_train = tm_map(my_corpus_train, content_transformer(stripWhitespace)) ## remove excess white-space
+my_corpus_train = tm_map(my_corpus_train, content_transformer(removeWords), stopwords("SMART"))
+
+DTM_train = DocumentTermMatrix(my_corpus_train)
+DTM_train = removeSparseTerms(DTM_train, 0.975)
+
+train_data = as.data.frame(as.matrix(DTM_train))
+
+
 ### TEST DATA #####
 author_dirs_test = Sys.glob('data/ReutersC50/C50test/*')
 
@@ -32,7 +65,7 @@ for(author_test in author_dirs_test) {
   author_name_test = tail(strsplit(author_test,split="/")[[1]],1)
   files_to_add_test = Sys.glob(paste0(author_test, '/*.txt'))
   file_list_test = append(file_list_test, files_to_add_test)
-  labels_test = append(labels_test, rep(author_name_test, length(files_to_add_test)-1))
+  labels_test = append(labels_test, rep(author_name_test, length(files_to_add_test)))
 }
 
 
@@ -49,30 +82,25 @@ my_corpus_test = tm_map(my_corpus_test, content_transformer(stripWhitespace)) ##
 my_corpus_test = tm_map(my_corpus_test, content_transformer(removeWords), stopwords("SMART"))
 
 DTM_test = DocumentTermMatrix(my_corpus_test)
-DTM_test # some basic summary statistics
-
-class(DTM_test)  # a special kind of sparse matrix format
-
-inspect(DTM_test[1:10,1:20])
 DTM_test = removeSparseTerms(DTM_test, 0.975)
 
-test.data = as.data.frame(as.matrix(DTM_test), stringsAsFactors=FALSE)
+test_data = as.data.frame(as.matrix(DTM_test))
 
 
-###RANDOM FOREST###
-library(randomForest)
+# use only intersecting columns
+common_cols = intersect(names(train_data), names(test_data))
+training = train_data[,c(common_cols)]
+
+### RANDOM FOREST #### 
+
 set.seed(1234)
-common_cols = intersect(names(train.data), names(test.data))
-X_train =train.data[,c(common_cols)]
-train_rf = randomForest(X_train, data=train.data, ntree=10, mtry=3)
-table(predict(train_rf), X_train)
-train_rf
-plot(train_rf)
+rf.model <- randomForest(x=training,y=factor(labels_train),ntree=50)
+rf.prediction = predict(rf.model,newdata=test_data)
+predictions = table(rf.prediction,labels_train)
+count = 0
+for(i in 1:50){
+  count = count + predictions[i,i]
+}
 
-
-testPred = predict(train_rf, newdata=new_test, type = 'class')
-#table(testPred, test.data$V1)
-CM = table(testPred, new_test$V1)
-accuracy = (sum(diag(CM)))/sum(CM)
-accuracy
-
+# accuracy
+count / 2500

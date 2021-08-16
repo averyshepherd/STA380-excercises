@@ -65,21 +65,20 @@ Saturdays generally have much lower numbers of flights. Holidays have much lower
 
 ```{r}
 coul <- brewer.pal(12, "Paired")
-coul <- colorRampPalette(coul)(22)
+coul <- colorRampPalette(coul)(40)
 
 abia %>%
   group_by(Month, Dest) %>% 
-  filter(WeatherDelay > 1) %>% 
-  summarise(count = n()) %>% 
-  filter(count > 1 & Dest != "AUS") %>% 
-  ggplot(aes(x = Dest, y = count, fill = Dest)) + geom_col() + 
+  summarise(sum = sum(WeatherDelay, na.rm = T)) %>% 
+  filter(sum > 20 & Dest != "AUS") %>% 
+  ggplot(aes(x = Dest, y = sum, fill = Dest)) + geom_col() + 
   facet_wrap(~ Month) + scale_fill_manual(values = coul)
 ```
 
 
 ```{r}
 abia %>% group_by(Month) %>% 
-  summarise(weather_delay = sum(WeatherDelay, na.rm=T)) %>% 
+  summarise(weather_delay = mean(WeatherDelay, na.rm=T)) %>% 
   ggplot(aes(x = as.factor(Month), y = weather_delay)) +
   geom_col()
 ```
